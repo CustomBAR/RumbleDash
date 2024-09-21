@@ -1,7 +1,7 @@
 :root {
     /* Color Variables */
     --background-color: #0e0e0e;
-    --header-background-color: #1e1e1e;
+    --header-background-color: #1111118a;
     --link-color: #58A6FF;
     --button-background-color: #58A6FF;
     --button-hover-color: #007BFF;
@@ -84,6 +84,7 @@ header {
     position: fixed;
     width: 100%;
     z-index: 1000;
+    backdrop-filter: blur(10px);
 }
 
 nav {
