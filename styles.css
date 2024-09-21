@@ -1,7 +1,7 @@
 :root {
     /* Color Variables */
     --background-color: #0e0e0e;
-    --header-background-color: #1111118a;
+    --header-background-color: #1e1e1e8a;
     --link-color: #58A6FF;
     --button-background-color: #58A6FF;
     --button-hover-color: #007BFF;
@@ -25,7 +25,6 @@
 body, html {
     overflow: auto; /* This allows the page to scroll */
 }
-
 
 body {
     background-color: var(--background-color);
@@ -244,6 +243,32 @@ footer {
     .feature-container {
         grid-template-columns: 1fr;
     }
+
+    #hero h2 {
+        font-size: 2em; /* Adjusted for smaller screens */
+    }
+
+    #hero p {
+        font-size: 1em; /* Adjusted for smaller screens */
+    }
+
+    .donation-container h3 {
+        font-size: 1.5em; /* Adjusted for smaller screens */
+    }
+
+    .donation-container p {
+        font-size: 0.9em; /* Adjusted for smaller screens */
+    }
+
+    .zigzag-item {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center align */
+    }
+
+    .showcase-image, .description {
+        width: 100%; /* Full width for images and descriptions */
+        padding: 10px; /* Adjust padding */
+    }
 }
 
 .donation-container {
@@ -261,6 +286,7 @@ footer {
     margin-bottom: 20px;
 }
 
+/* Zigzag Container */
 .zigzag-container {
     max-width: 1200px;
     margin: auto;
@@ -289,3 +315,42 @@ footer {
     color: var(--text-color);
 }
 
+/* Additional styles for mobile responsiveness */
+@media (max-width: 600px) {
+    .zigzag-item {
+        flex-direction: column; /* Stack items vertically on mobile */
+        align-items: center; /* Center align */
+    }
+
+    .zigzag-item.reverse {
+        flex-direction: column; /* Ensure reversed items also stack */
+    }
+
+    .showcase-image {
+        width: 100%; /* Adjust image width for mobile */
+        margin-bottom: 10px; /* Space below the image */
+    }
+
+    .description {
+        width: 100%; /* Full width for descriptions */
+        padding: 0 10px; /* Adjust padding */
+        text-align: center; /* Center align text */
+    }
+
+    .mobile-hide {
+        display: none;
+    }
+}
+
+
+@media (max-width: 480px) {
+    nav a {
+        padding: 6px 10px; /* Reduce padding */
+        font-size: 0.9em; /* Smaller font size */
+    }
+
+    .donate-button {
+        padding: 8px 10px; /* Reduce padding */
+        font-size: 0.9em; /* Smaller font size */
+    }
+}
