@@ -1,7 +1,6 @@
 # Dashboard Tool
 
-![image](https://github.com/user-attachments/assets/6086fb66-6797-4ab3-8a92-b08d5f2aa537)
-
+![image](https://github.com/user-attachments/assets/8266f737-0f78-4173-9629-8fff8c31a980)
 
 This project is a dashboard tool designed to help users track their followers and subscribers effectively. It provides real-time updates and visualizations of follower and subscriber activity.
 
