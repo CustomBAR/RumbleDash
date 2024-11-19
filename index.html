@@ -1,133 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RumbleDash</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <!-- Glowing Blobs -->
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
-    <div class="blob blob3"></div>
-    <div class="blob blob4"></div>
-
-    <!-- Navbar -->
-    <header>
-        <nav>
-            <div class="nav-container">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RumbleDash</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="container text-center">
                 <h1>RumbleDash</h1>
-                <ul>
-                    <li><a class="mobile-hide" href="#features">Features</a></li>
-                    <li><a class="mobile-hide" href="#support">Support</a></li>
-                    <li><a href="https://paypal.me/2players1Gamer" target="_blank" class="donate-button">Donate</a></li>
-                </ul>
+                <p>The Ultimate Dashboard for Rumble Streamers</p>
+                <a href="#download" class="btn primary-btn">Get Started</a>
             </div>
-        </nav>
-    </header>
+        </header>
 
-    <!-- Main Content -->
-    <main>
-        <section id="hero">
-            <h2>Welcome to RumbleDash</h2>
-            <p>Track real-time data from Rumble with customizable widgets.</p>
-            <a href="https://github.com/CustomBAR/RumbleDash/releases/latest
-" class="download-btn">Download</a>
-        </section>
-        <section id="features">
-            <h2>Features</h2>
-            <div class="feature-container">
-                <div class="feature-card">
-                    <h3>📊 Real-Time Rumble Data</h3>
-                    <p>Monitor live statistics directly from the Rumble platform.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>⚙️ Fully Customizable Widgets</h3>
-                    <p>Adjust your dashboard with widgets that suit your needs.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🖥️ User-Friendly Interface</h3>
-                    <p>Effortlessly navigate through a clean and intuitive design.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🔄 Regular API Updates</h3>
-                    <p>Get the latest data as soon as it’s available through the Rumble API.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🌐 Community Driven</h3>
-                    <p>Join a growing community of Rumble enthusiasts and developers.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🔧 Easy Setup and Integration</h3>
-                    <p>Set up your dashboard in minutes with minimal effort.</p>
-                </div>
-            </div>
-        </section>
-        <section id="journey">
-            <h2>My Journey with RumbleDash</h2>
-            <p>Welcome to my journey of building RumbleDash! This project was born from a passion for creating a dynamic dashboard tool that empowers streamers to track their performance and engage with their audience through customizable widgets. Over the years, I've faced challenges and gained insights that have significantly shaped my vision for this tool.</p>
-            
-            <div class="feature-container">
-                <div class="feature-card">
-                    <h3>Inspiration</h3>
-                    <p>RumbleDash was inspired by the need for a seamless way for streamers to monitor their growth on Rumble. I wanted to create an intuitive platform that helps users visualize their streaming metrics and celebrate milestones.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>Dedication</h3>
-                    <p>My commitment to RumbleDash goes beyond just building a tool; it’s about empowering streamers to enhance their content and community interaction. Every design choice is made with the user experience in mind.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>Community Support</h3>
-                    <p>Your support is crucial in bringing RumbleDash to life. Together, we can build a robust tool that empowers streamers to achieve their goals and connect with their audience more effectively!</p>
-                </div>
-            </div>
-        
-            <div class="donation-container">
-                <h3>Support RumbleDash</h3>
-                <p>If you believe in the vision of RumbleDash and want to help us enhance this goal-tracking tool, consider contributing. Every donation makes a significant difference!</p>
-                <a href="https://paypal.me/2players1Gamer" target="_blank" class="donate-button">Donate Now</a>
-            </div>
-        </section>
-        
-        <section id="showcase">
-            <h2>Showcasing RumbleDash</h2>
-            
-            <div class="zigzag-container">
-                <div class="zigzag-item">
-                    <img src="dashboard.png" alt="RumbleDash Interface" class="showcase-image">
-                    <p class="description">RumbleDash provides streamers with a user-friendly interface that seamlessly integrates various metrics, enabling you to visualize your progress and stay focused during your streams.</p>
-                </div>
-                
-                <div class="zigzag-item reverse">
-                    <img src="obs-widget.png" alt="Customizable Widgets" class="showcase-image">
-                    <p class="description">Our fully customizable widgets allow streamers to tailor their dashboards to meet their specific goals, enhancing their streaming experience on platforms like OBS and Streamlabs. Whether hosted on a secondary PC for cloud-based flexibility or directly on their main setup for local performance, RumbleDash ensures a seamless integration that keeps the focus on engaging with the audience.</p>
-                </div>
-            </div>
-        </section>                
-        <section id="support">
-            <h2>Support</h2>
-            <p>Need help? Visit our <a href="https://discord.gg/nJywsXTaFY">Community Discord</a></p>
-        </section>
-        <section id="comments">
-            <h2>Comments</h2>
-            <p>Join the conversation! Leave your thoughts and feedback below:</p>
-            <div id="utterances"></div>
-            <script src="https://utteranc.es/client.js"
-                    repo="CustomBAR/RumbleDash"
-                    issue-term="pathname"
-                    theme="github-dark"
-                    crossorigin="anonymous"
-                    async>
-            </script>
-        </section>        
-    </main>
+        <!-- Image Between Sections -->
+        <img
+            src="assets/rumbledash.png"
+            alt="Decorative Image"
+            class="between-sections-image"
+        />
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 RumbleDash. All rights reserved.</p>
-    </footer>
-</body>
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="container">
+                <h2 class="text-center">What Makes RumbleDash Awesome?</h2>
+                <div class="grid">
+                    <div class="feature-item">
+                        <h3>Real-Time Analytics</h3>
+                        <p>Track your Rumble Followers and Subscribers live.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Customizable Widgets</h3>
+                        <p>
+                            Personalize your dashboard to match your stream's
+                            vibe.
+                        </p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Seamless Integration</h3>
+                        <p>
+                            Easy-to-use with API support for your streaming
+                            setup.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Between Sections -->
+        <img
+            src="assets/obs-rumbledash-widget.png"
+            alt="Decorative Image"
+            class="between-sections-image"
+        />
+        <h2 class="text-center">OBS Widgets via Browser Source.</h2>
+
+        <!-- Call to Action -->
+        <section class="cta">
+            <div id="download" class="container text-center">
+                <h2>Start Enhancing Your Stream Today</h2>
+                <p>
+                    Download RumbleDash and take your streaming experience to
+                    the next level.
+                </p>
+                <a
+                    href="https://github.com/CustomBAR/RumbleDash/releases/latest"
+                    class="btn primary-btn"
+                    >Download Now</a
+                >
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container text-center">
+                <p>Made with ❤️ for Rumble Streamers</p>
+                <p>&copy; 2024 RumbleDash. All rights reserved.</p>
+            </div>
+        </footer>
+    </body>
 </html>
