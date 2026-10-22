@@ -1,0 +1,519 @@
+/* Root Variables */
+:root {
+    --primary-color: #fff;
+    --background-color: #061726;
+    --text-color: #fff;
+    --text-color-sidebar: black;
+    --button-hover-color: #b8860b;
+
+    /* Progress bar */
+    --progress-bar-accent: #62f600;
+    --progress-bar-background: #fff;
+    --progress-bar-radius: 20px;
+
+    /* Version Control Label */
+    --version-control-bg: #fff;
+    --version-control-border: #000;
+
+    /* Sidebar */
+    --sidebar-bg: #061726;
+    --sidebar-btn: #fff;
+    --sidebar-btn-hover: #62f600;
+
+    /* Message Output */
+    --message-display: #344761;
+
+    /* Input Fields */
+    --input-field-border: #fff;
+    --input-field-bg: #111c26;
+    --input-field-radius: 20px;
+
+    /* Save Config Button */
+    --save-btn-hover: #62f600;
+    --save-btn: #fff;
+
+    /* Btn CSS */
+    --clear-btn-bg-hover-color: #cc0000;
+    --clear-btn-bg-color: #ff4d4d;
+
+    --btn-radius: 20px;
+
+    /* Card Panel */
+    --card-bg-color: #344761;
+    --card-radius: 20px;
+
+    /* <a> links */
+    --link-color: #62f600;
+
+    /* Label Field */
+    --label-margin-bottom: 10px;
+    --input-field-text-padding: 10px;
+    --input-field-text-padding-left: 18px;
+
+    /* Adlabel CSS */
+    --adlabel-bg: #344761;
+    --adlabel-text: #fff;
+
+    /* Adbanner Setting */
+    --adbanner-visibility: block;
+}
+
+/* Contributors grid container */
+.contributors-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(200px, 1fr)
+    ); /* Smaller minimum card width */
+    gap: 15px; /* Reduced space between grid items */
+    padding: 15px;
+    justify-items: center; /* Centers the grid items within their cells */
+}
+
+/* Styling for individual contributor card using card-contributors */
+.card-contributors {
+    background-color: var(--card-bg-color);
+    border-radius: 8px; /* Slightly smaller radius for a more compact look */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Keeps content within rounded corners */
+    text-align: center;
+    padding: 15px; /* Reduced padding for smaller cards */
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    max-width: 220px; /* Set a maximum width for consistency */
+}
+
+/* Hover effect for the contributor cards */
+.card-contributors:hover {
+    transform: translateY(-5px); /* Slightly smaller hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
+}
+
+/* Rumble channel logo styling */
+.rumble-channel-logo {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px; /* Reduce space between logo and title */
+}
+
+/* Title styling for each contributor */
+.title {
+    font-size: 1em; /* Slightly smaller font size */
+    font-weight: bold;
+    color: var(--link-color);
+    margin: 0;
+    line-height: 1.2; /* Adjust line height for tighter text */
+}
+
+/* Styling for links inside contributor cards */
+.channellink {
+    text-decoration: none; /* Removes the underline from the link */
+    display: block;
+}
+
+/* Responsive layout adjustments for smaller screens */
+@media (max-width: 768px) {
+    .contributors-grid {
+        grid-template-columns: repeat(
+            auto-fill,
+            minmax(150px, 1fr)
+        ); /* Even smaller cards on smaller screens */
+    }
+}
+
+.log-contributors-para {
+    margin-bottom: 20px;
+}
+
+.contributor-titles {
+}
+
+.link {
+    color: var(--link-color);
+    font-style: bold;
+}
+
+.hideme {
+    display: none;
+}
+
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "calibri", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.config-section {
+    padding: 25px; /* Consistent padding */
+    flex: 1; /* Flex property to adapt to the grid */
+    margin-bottom: 25px; /* Space between cards */
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    color: var(--text-color-sidebar);
+    padding: 30px 20px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    border-right: 1px solid #0b3148;
+}
+
+.sidebar h2 {
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: var(--text-color-sidebar);
+    text-decoration: none;
+    display: block;
+    padding: 12px;
+    border-radius: var(--btn-radius);
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+    background-color: var(--sidebar-btn);
+}
+
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+    background-color: var(--sidebar-btn-hover);
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    background-color: var(--background-color);
+    overflow-y: auto;
+}
+
+header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 26px;
+    color: var(--primary-color);
+}
+
+/* Card Styles */
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Feedback Card */
+.form-feedback {
+    width: 40%;
+}
+
+.grid {
+    display: flex;
+    gap: 15px;
+}
+
+.message-field {
+    resize: none;
+    height: 300px;
+}
+
+/* Card Styling */
+.card {
+    background-color: var(--card-bg-color);
+    padding: 20px; /* Consistent padding */
+    border-radius: var(--card-radius); /* Rounded corners */
+    flex: 1 1 calc(25% - 10px); /* Flex property to adapt to the grid */
+    min-width: 320px; /* Minimum width for responsiveness */
+    margin-bottom: 15px; /* Space between cards */
+}
+
+.card h2 {
+    font-size: 22px; /* Heading size */
+    margin-bottom: 10px; /* Space below heading */
+    color: var(--primary-color); /* Primary color for text */
+}
+
+.card p,
+.view-count-card .view-count-display {
+    font-size: 18px; /* Font size for descriptions */
+    color: var(--text-color); /* Text color */
+}
+
+/* Progress Bar Styles */
+.progress-bar {
+    background-color: var(--progress-bar-background);
+    overflow: hidden;
+    height: 30px;
+    margin: 10px 0;
+    border-radius: var(--progress-bar-radius);
+}
+
+.progress {
+    height: 100%;
+    background-color: var(--progress-bar-accent);
+}
+
+/* Field Styles */
+.field {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--text-color);
+    margin-bottom: var(--label-margin-bottom);
+}
+
+.field input {
+    width: 100%;
+    padding-left: var(--input-field-text-padding-left);
+    padding-right: var(--input-field-text-padding);
+    padding-top: var(--input-field-text-padding);
+    padding-bottom: var(--input-field-text-padding);
+    border-radius: var(--input-field-radius);
+    background-color: var(--input-field-bg);
+    color: var(--text-color);
+    font-size: 16px;
+    transition: border-color 0.3s;
+    border: none;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    padding: var(--input-field-text-padding);
+    padding-left: var(--input-field-text-padding-left);
+    border-radius: var(--input-field-radius);
+    background-color: var(--input-field-bg);
+    color: var(--text-color);
+    font-size: 16px;
+    transition: border-color 0.3s;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.field select {
+    border: #62f600 solid var(--input-field-border-size);
+    border-color: var(--input-field-border);
+}
+
+/* Button Styles */
+.btn-primary,
+.btn-clear {
+    padding: 12px 25px;
+    border-radius: var(--btn-radius);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition:
+        background-color 0.6s ease,
+        transform 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--save-btn);
+    color: black;
+}
+
+.btn-primary:hover {
+    background-color: var(--save-btn-hover);
+    color: black;
+}
+
+.btn-clear {
+    background-color: var(--clear-btn-bg-color); /* Keep for clear action */
+    color: var(--text-color);
+}
+
+.btn-clear:hover {
+    background-color: var(--clear-btn-bg-hover-color);
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.divider {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.versioncontrol {
+    background-color: var(--version-control-bg);
+    color: black;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid var(--version-control-border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Paypal Donate button CSS */
+#custom-donate-button {
+    background-color: #0070ba; /* PayPal blue */
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+#custom-donate-button:hover {
+    background-color: #005c9a;
+}
+
+.paypallogo {
+    width: auto;
+    height: 17px;
+}
+
+/* RumbleDash Logo */
+.rumbledashlogo {
+    width: auto;
+    height: 35px;
+    display: flex;
+    margin: 0 auto;
+    transition: scale 0.3s ease-in 0.1s;
+}
+
+.rumbledashlogo:hover {
+    scale: 1.1;
+}
+
+.bottom {
+    position: fixed;
+    bottom: 0;
+    width: 80%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.spacearound {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.message {
+    color: #62f600;
+}
+
+.pagebutton {
+    padding: 10px;
+    background-color: var(--card-bg-color);
+    border-radius: 20px;
+}
+
+.zabranding {
+    color: #000;
+    background-color: var(--progress-bar-background);
+    padding: 10px;
+    border-radius: 20px;
+    width: max-content;
+    position: fixed;
+    margin: 0 auto;
+    display: flex;
+    right: 20px;
+    top: 20px;
+}
+
+/* Changelog Entry Styles */
+.changelog-entry {
+    background-color: var(--background-color);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+}
+
+.changelog {
+    scroll-behavior: auto;
+}
+
+.rumbledash-cover {
+    width: auto;
+    height: 630px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border-radius: var(--input-field-radius);
+}
+
+.rumbledash-logo {
+    width: auto;
+    height: 45px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.adbanner {
+    max-width: 100%;
+    height: auto;
+    display: var(--adbanner-visibility);
+    margin: 0 auto;
+    border-radius: var(--card-radius);
+    margin-bottom: 15px;
+    border: 2px solid var(--card-bg-color);
+}
+
+.adlabel {
+    background-color: var(--adlabel-bg);
+    padding: 5px 12px;
+    border-radius: 10px;
+    max-width: fit-content;
+    position: absolute; /* Changed to absolute */
+    margin-top: 10px;
+    margin-left: 10px;
+    text-decoration: none;
+    color: var(--adlabel-text);
+    z-index: 2;
+}
+
+#ad-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%; /* Adjust width as needed */
+}
+
+.adbanner {
+    transition: opacity 0.5s ease-in-out; /* Smooth fade transition */
+    width: 100%; /* Ensures the image fills the container */
+    opacity: 1; /* Visible by default */
+}
+
+.hidden {
+    opacity: 0; /* Hidden when switching */
+}

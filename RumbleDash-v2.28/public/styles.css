@@ -1,0 +1,201 @@
+* {
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Dark background */
+    color: white;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background-color: #1e1e1e; /* Darker container */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.field {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="number"],
+input[type="text"],
+input[type="checkbox"],
+input[type="password"] {
+    width: 100%; /* Full width */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: white;
+}
+
+/* Add this to your existing styles.css */
+
+button {
+    background-color: #ff6b6b; /* Rumble's red accent */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Full width for the button */
+    margin-bottom: 10px; /* Space below the button */
+}
+
+button:hover {
+    background-color: #ff4c4c; /* Darker red on hover */
+}
+
+button {
+    background-color: #ff6b6b; /* Rumble's red accent */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Full width for the button */
+}
+
+button:hover {
+    background-color: #ff4c4c; /* Darker red on hover */
+}
+
+#message {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; /* Space between cards */
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #2a2a2a; /* Card background */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 24px; /* Increased heading size */
+    font-weight: bold; /* Bold font for headings */
+    color: #ff6b6b; /* Rumble's red accent color */
+    text-align: center; /* Center align the heading */
+}
+
+.card p {
+    font-size: 48px; /* Larger font size for counts */
+    margin: 10px 0; /* Space above the count */
+    font-weight: bold; /* Bold font for numbers */
+    color: #ffffff; /* White color for numbers */
+    text-align: center; /* Center align the count */
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #444; /* Background for the progress bar */
+    border-radius: 10px;
+    overflow: hidden; /* To hide overflow */
+    margin-top: 10px; /* Space above the progress bar */
+}
+
+.progress {
+    height: 100%;
+    background-color: #74cc1d; /* Fill color for the progress */
+    width: 0%; /* Initial width */
+    transition: width 0.5s; /* Smooth transition */
+}
+
+/* Switch styles */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #ff6b6b;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #ff6b6b;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+#followerCount {
+    font-size: 40px;
+}
+
+#subscriberCount {
+    font-size: 40px;
+}
+
+#subscriberCount #followerCount {
+    margin: 0 auto;
+}
+
+.counter-container {
+    text-align: center;
+}

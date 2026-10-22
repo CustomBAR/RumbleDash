@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RumbleDash v3</title>
+        <link rel="stylesheet" href="/styles/dashboard.css" />
+    </head>
+    <body>
+        <div class="wrap">
+            <header>
+                <h1>RumbleDash <span class="version">v3</span></h1>
+                <p class="tagline">
+                    The widget server is running. Open the desktop app for the full
+                    configuration panel.
+                </p>
+            </header>
+
+            <section class="cards">
+                <article class="card">
+                    <h2>Followers</h2>
+                    <p class="count" id="followerCount">0</p>
+                    <div class="progress-bar"><div class="progress" id="followerProgress"></div></div>
+                    <p class="goal">Goal: <span id="followerGoal">0</span></p>
+                </article>
+
+                <article class="card">
+                    <h2>Subscribers</h2>
+                    <p class="count" id="subscriberCount">0</p>
+                    <div class="progress-bar"><div class="progress" id="subscriberProgress"></div></div>
+                    <p class="goal">Goal: <span id="subscriberGoal">0</span></p>
+                </article>
+            </section>
+
+            <section class="card links">
+                <h2>Widget URLs</h2>
+                <p><a href="/followers">/followers</a></p>
+                <p><a href="/subscribers">/subscribers</a></p>
+            </section>
+
+            <p class="branding">Made with &#10084;&#65039; from South Africa</p>
+        </div>
+
+        <script src="/scripts/status.js"></script>
+    </body>
+</html>

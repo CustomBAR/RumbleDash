@@ -1,0 +1,7 @@
+/target
+**/target
+config.json
+*.log
+
+# Cargo.lock is committed on purpose: this workspace builds binaries, so the
+# exact dependency versions must be reproducible.

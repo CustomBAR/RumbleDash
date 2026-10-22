@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RumbleDash - Updates</title>
+        <link rel="stylesheet" href="dashboardui.css" />
+    </head>
+    <body>
+        <div class="dashboard-container">
+            <aside class="sidebar">
+                <h2 class="logo">
+                    <a class="logolink" href="https://custombar.github.io/RumbleDash" target="_blank">
+                        <img class="rumbledashlogo" src="Assets/RumbleDash Branding web logo.png" alt="RumbleDash"></a>
+                </h2>
+
+                <p class="versioncontrol">v2.28</p>
+
+                <div class="divider"></div>
+
+                <ul>
+                    <li>
+                        <a class="pagebutton" href="/">Back to RumbleDash</a>
+                        <a class="pagebutton" href="form">Submit Your Feedback</a>
+                        <a class="pagebutton" href="changelog">Update History</a>
+                        <a class="pagebutton" href="contributors">Contributors</a>
+                    </li>
+                </ul>
+
+                <div id="donate-button-container">
+                    <button id="custom-donate-button" onclick="openPayPalDonation()"><img class="paypallogo" src="https://pngimg.com/uploads/paypal/paypal_PNG16.png"> Donate</button>
+                </div>
+                <script>
+                  function openPayPalDonation() {
+                      window.open(
+                      'https://www.paypal.com/donate?hosted_button_id=4J4ZYEGVSMNJN',
+                      'paypal',
+                      'width=600,height=700'
+                      );
+                  }
+                </script>
+
+                <div class="divider"></div>
+
+                <div id="paypal-button-container-P-1D988898DK4677808M4WRT5I"></div>
+                <script src="https://www.paypal.com/sdk/js?client-id=AefEEDN_AYZXiu8TcLcIMY6I5T-uTtUW1yjbElSH1QWQxIeCf_YUuY-xB7Dj5dOa1sreve_0Rwsvf-y0&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+                <script>
+                  paypal.Buttons({
+                      style: {
+                          shape: 'pill',
+                          color: 'blue',
+                          layout: 'vertical',
+                          label: 'subscribe'
+                      },
+                      createSubscription: function(data, actions) {
+                          return actions.subscription.create({
+                          /* Creates the subscription */
+                          plan_id: 'P-1D988898DK4677808M4WRT5I'
+                          });
+                      },
+                      onApprove: function(data, actions) {
+                          alert(data.subscriptionID); // You can add optional success message for the subscriber here
+                      }
+                  }).render('#paypal-button-container-P-1D988898DK4677808M4WRT5I'); // Renders the PayPal button
+                </script>
+            </aside>
+
+            <div class="main-content">
+                <header>
+                    <h1>RumbleDash Update History</h1>
+                </header>
+
+                <main>
+                    <section id="changelog" class="changelog card config-section">
+                        <div class="field">
+                            <h2>Changelog</h2>
+                            <p>Here is a list of all the updates and changes made to the project. Stay up to date with the latest enhancements, bug fixes, and improvements.</p>
+
+                            <!-- Changelog Entries -->
+                            <div class="changelog-entry">
+                                <h3>RumbleDash v2.24 - November 8th 2024</h3>
+                                <ul>
+                                    <li>New Re-skin.</li>
+                                    <li>Widget Overlays are Re-skinned with a Gradient added.</li>
+                                    <li>Update includes Monetisation methods **NO ADS INCLUDED** Only added PayPal Buttons for users to fund the Development.</li>
+                                    <li>Fixed a Bug that will make it so that when you run the Project via ``node server.js`` that it would run for about an hour and start spitting errors out, this is Patched in this release.</li>
+                                </ul>
+                            </div>
+                            <div class="changelog-entry">
+                                <h3>RumbleDash v2.25 - November 10th 2024</h3>
+                                <ul>
+                                    <li>Redesigned the Dashboard UI.</li>
+                                    <li>Fixed Backend Bugs that would stop the Project.</li>
+                                    <li>Added a "Made with ❤️ from South Africa" Branding Very Important.</li>
+                                    <li>Added 2 New Pages "Update History" and "Submit Your Feedback" Use these if you'd like.</li>
+                                    <li>Added Paypal buttons for Supporting the Project.</li>
+                                </ul>
+                            </div>
+                            <div class="changelog-entry">
+                                <h3>RumbleDash v2.26 - November 11th 2024</h3>
+                                <ul>
+                                    <li>Organised CSS files with CSS Variables to keep a Consistent style across the Entire Project, Helping anyone Curious to Change or Modify the Project.</li>
+                                    <li>Added Interactive Affiliate Ad Banners.</li>
+                                </ul>
+                            </div>
+                            <div class="changelog-entry">
+                                <h3>RumbleDash v2.27 - November 11th 2024</h3>
+                                <ul>
+                                    <li>Updated Interactive Custom Banner Ads.</li>
+                                </ul>
+                            </div>
+                            <div class="changelog-entry">
+                                <h3>RumbleDash v2.28 - November 11th 2024</h3>
+                                <ul>
+                                    <li>Added a New Contributor Check <a class="link" href="contributors">Contributors Page.</a></li>
+                                    <li>Contributor & Author Added some new Changes, Contributor Optimized the Backend to make the Tool more optimised, Author fine-tuned the CSS to make the UI/UX Better.</li>
+                                </ul>
+                            </div>
+                    </section>
+                    <h4 class="zabranding">Made with ❤️ from South Africa</h4>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>

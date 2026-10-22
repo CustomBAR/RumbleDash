@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RumbleDash - Updates</title>
+        <link rel="stylesheet" href="dashboardui.css" />
+    </head>
+    <body>
+        <div class="dashboard-container">
+            <aside class="sidebar">
+                <h2 class="logo">
+                    <a class="logolink" href="https://custombar.github.io/RumbleDash" target="_blank">
+                        <img class="rumbledashlogo" src="Assets/RumbleDash Branding web logo.png" alt="RumbleDash"></a>
+                </h2>
+
+                <p class="versioncontrol">v2.28</p>
+
+                <div class="divider"></div>
+
+                <ul>
+                    <li>
+                        <a class="pagebutton" href="/">Back to RumbleDash</a>
+                        <a class="pagebutton" href="form">Submit Your Feedback</a>
+                        <a class="pagebutton" href="changelog">Update History</a>
+                        <a class="pagebutton" href="contributors">Contributors</a>
+                    </li>
+                </ul>
+
+                <div id="donate-button-container">
+                    <button id="custom-donate-button" onclick="openPayPalDonation()"><img class="paypallogo" src="https://pngimg.com/uploads/paypal/paypal_PNG16.png"> Donate</button>
+                </div>
+                <script>
+                  function openPayPalDonation() {
+                      window.open(
+                      'https://www.paypal.com/donate?hosted_button_id=4J4ZYEGVSMNJN',
+                      'paypal',
+                      'width=600,height=700'
+                      );
+                  }
+                </script>
+
+                <div class="divider"></div>
+
+                <div id="paypal-button-container-P-1D988898DK4677808M4WRT5I"></div>
+                <script src="https://www.paypal.com/sdk/js?client-id=AefEEDN_AYZXiu8TcLcIMY6I5T-uTtUW1yjbElSH1QWQxIeCf_YUuY-xB7Dj5dOa1sreve_0Rwsvf-y0&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+                <script>
+                  paypal.Buttons({
+                      style: {
+                          shape: 'pill',
+                          color: 'blue',
+                          layout: 'vertical',
+                          label: 'subscribe'
+                      },
+                      createSubscription: function(data, actions) {
+                          return actions.subscription.create({
+                          /* Creates the subscription */
+                          plan_id: 'P-1D988898DK4677808M4WRT5I'
+                          });
+                      },
+                      onApprove: function(data, actions) {
+                          alert(data.subscriptionID); // You can add optional success message for the subscriber here
+                      }
+                  }).render('#paypal-button-container-P-1D988898DK4677808M4WRT5I'); // Renders the PayPal button
+                </script>
+            </aside>
+
+            <div class="main-content">
+                <header>
+                    <h1>RumbleDash Contributors</h1>
+                </header>
+
+                <main>
+                    <section id="changelog" class="dashboard-grid changelog card config-section">
+                        <div class="field">
+                            <h2>Contributions Made for Recognition</h2>
+                            <p class="log-contributors-para">This Project had helped from all These Amazing People!</p>
+                    </section>
+                    <section class="contributors-grid">
+                        <div class="card-contributors">
+                            <a class="channellink" href="https://rumble.com/c/ConstantlyCurious" target="_blank">
+                                <img class="rumble-channel-logo" src="https://1a-1791.com/video/z8/v/R/d/z/vRdza.baa-ConstantlyCurious-sgs4w0.png" alt="Constantly Curious Logo"/>
+                            </a>
+                            <h4 class="title">Constantly Curious</h4>
+                        </div>
+                        <!-- Repeat similar structure for other contributors -->
+                    </section>
+                    <h4 class="zabranding">Made with ❤️ from South Africa</h4>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>

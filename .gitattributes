@@ -1,0 +1,12 @@
+# Normalise the line endings of every text file to LF in the repository and
+# check them out again with the platform default. This keeps the diffs of the
+# shell scripts, the CSS and the Rust sources stable across machines.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.exe binary
+*.zip binary

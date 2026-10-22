@@ -1,0 +1,136 @@
+:root {
+    --background-color: #131417;
+    --surface-color: #1c1e23;
+    --surface-raised-color: #25282e;
+    --border-color: #2f323a;
+    --ember: #ff6b1a;
+    --ember-light: #ffa366;
+    --text-color: #f3f4f6;
+    --text-muted-color: #9aa0aa;
+    --text-faint-color: #676d77;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 30px 60px;
+}
+
+header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+
+h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.version {
+    background-color: var(--ember);
+    color: #140c06;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+.tagline {
+    margin-top: 10px;
+    color: var(--text-muted-color);
+    font-size: 14.5px;
+    max-width: 62ch;
+    line-height: 1.5;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    padding: 22px;
+    border-radius: 14px;
+    flex: 1 1 calc(50% - 9px);
+    min-width: 280px;
+    margin-bottom: 18px;
+}
+
+.card h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-faint-color);
+    margin-bottom: 12px;
+}
+
+.count {
+    font-size: 34px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+.progress-bar {
+    background-color: var(--surface-raised-color);
+    overflow: hidden;
+    height: 8px;
+    margin: 16px 0 10px;
+    border-radius: 999px;
+}
+
+.progress {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--ember), var(--ember-light));
+    transition: width 0.4s ease;
+}
+
+.goal {
+    font-size: 13px;
+    color: var(--text-muted-color);
+}
+
+.links a {
+    color: var(--ember);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.links a:hover {
+    color: var(--ember-light);
+    text-decoration: underline;
+}
+
+.branding {
+    margin-top: 28px;
+    display: inline-block;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-faint-color);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+}

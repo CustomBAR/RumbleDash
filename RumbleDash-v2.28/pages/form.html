@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RumbleDash - Form</title>
+        <link rel="stylesheet" href="dashboardui.css" />
+
+        <!-- Font Awesome CDN -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="dashboard-container">
+            <aside class="sidebar">
+                <h2 class="logo">
+                    <a class="logolink" href="https://custombar.github.io/RumbleDash" target="_blank">
+                        <img class="rumbledashlogo" src="Assets/RumbleDash Branding web logo.png" alt="RumbleDash"></a>
+                </h2>
+
+                <p class="versioncontrol">v2.28</p>
+
+                <div class="divider"></div>
+
+                <ul>
+                    <li>
+                        <a class="pagebutton" href="/">Back to RumbleDash</a>
+                        <a class="pagebutton" href="form">Submit Your Feedback</a>
+                        <a class="pagebutton" href="changelog">Update History</a>
+                        <a class="pagebutton" href="contributors">Contributors</a>
+                    </li>
+                </ul>
+
+                <div id="donate-button-container">
+                    <button id="custom-donate-button" onclick="openPayPalDonation()"><img class="paypallogo" src="https://pngimg.com/uploads/paypal/paypal_PNG16.png"> Donate</button>
+                </div>
+                <script>
+                  function openPayPalDonation() {
+                      window.open(
+                      'https://www.paypal.com/donate?hosted_button_id=4J4ZYEGVSMNJN',
+                      'paypal',
+                      'width=600,height=700'
+                      );
+                  }
+                </script>
+
+                <div class="divider"></div>
+
+                <div id="paypal-button-container-P-1D988898DK4677808M4WRT5I"></div>
+                <script src="https://www.paypal.com/sdk/js?client-id=AefEEDN_AYZXiu8TcLcIMY6I5T-uTtUW1yjbElSH1QWQxIeCf_YUuY-xB7Dj5dOa1sreve_0Rwsvf-y0&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+                <script>
+                  paypal.Buttons({
+                      style: {
+                          shape: 'pill',
+                          color: 'blue',
+                          layout: 'vertical',
+                          label: 'subscribe'
+                      },
+                      createSubscription: function(data, actions) {
+                          return actions.subscription.create({
+                          /* Creates the subscription */
+                          plan_id: 'P-1D988898DK4677808M4WRT5I'
+                          });
+                      },
+                      onApprove: function(data, actions) {
+                          alert(data.subscriptionID); // You can add optional success message for the subscriber here
+                      }
+                  }).render('#paypal-button-container-P-1D988898DK4677808M4WRT5I'); // Renders the PayPal button
+                </script>
+            </aside>
+
+            <div class="main-content">
+                <header>
+                    <h1>Feedback Form</h1>
+                </header>
+
+                <!-- Ad Placement -->
+                <div id="ad-container">
+                    <a id="ad-link" href="https://rumble.bot/" target="_blank">
+                        <p class="adlabel"><i class="fa-solid fa-crown" style="color: #ffffff;"></i> AD</p>
+                        <img id="ad-image" class="adbanner" src="Assets/promotions/Affiliate Banners RumbleBot.png"/>
+                    </a>
+                </div>
+
+                <!-- Ad Handling Script -->
+                <script src="js/script.js"></script>
+
+                <main class="grid">
+                    <section id="contact-form" class="form-feedback card config-section">
+
+                        <!-- RumbleDash Cover Image -->
+                        <img class="rumbledash-logo" src="Assets/RumbleDash Branding web logo.png">
+                        <div class="field">
+                            <h2>Your Feedback is Greatly Appreciated! ❤️</h2>
+
+                            <!-- Formspree form starts here -->
+                            <form action="https://formspree.io/f/xeoqkoqa" method="POST">
+                                <!-- Replace "your-form-id" with your actual Formspree form ID -->
+
+                                <!-- Name field -->
+                                <label for="name"></label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Enter your name"
+                                    required
+                                />
+
+                                <!-- Email field -->
+                                <label for="email"></label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    required
+                                />
+
+                                <!-- Message field -->
+                                <label for="message"></label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    class="message-field"
+                                    placeholder="Type your message here"
+                                    rows="5"
+                                    required
+                                ></textarea>
+
+                                <!-- Submit button -->
+                                <button type="submit" class="btn-primary">
+                                    Send Feedback
+                                </button>
+                            </form>
+                        </div>
+                    </section>
+                    <img class="rumbledash-cover" src="Assets/RumbleDash Feedback form Image.png">
+                    <h4 class="zabranding">Made with ❤️ from South Africa</h4>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>

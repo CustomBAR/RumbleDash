@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Subscribers Goal - Rumble Streamer Dashboard</title>
+        <link rel="stylesheet" href="subscribers.css">
+        <!-- Link to your existing styles -->
+    </head>
+    <body>
+        <div class="widget">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <span class="invertcolor subscribers">Subscribers</span>
+                    <span class="invertcolor counter" id="subscriberCount">0</span>
+                    <span class="invertcolor goal" id="subscriberGoal">0</span> <!-- Placeholder goal value -->
+                    <div class="progress" id="subscriberProgress"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/public/script.js"></script>
+        <!-- Link to your client-side JavaScript -->
+        <script>
+            async function updateSubscriberData() {
+                const response = await fetch('/api/dashboard');
+                if (!response.ok) {
+                    console.error('Error fetching subscriber data:', response.statusText);
+                    return;
+                }
+
+                const data = await response.json();
+
+                // Update subscriber count
+                document.getElementById('subscriberCount').innerText = data.subscribers;
+
+                // Update goal
+                document.getElementById('subscriberGoal').innerText = data.goals.subscribers;
+
+                // Update progress bar
+                const subscriberProgress = document.getElementById('subscriberProgress');
+                const subscriberGoal = data.goals.subscribers;
+
+                const subscriberPercentage = (data.subscribers / subscriberGoal) * 100;
+                subscriberProgress.style.width = `${subscriberPercentage}%`;
+            }
+
+            // Update subscriber data every 5 seconds
+            setInterval(updateSubscriberData, 5000);
+            updateSubscriberData(); // Initial fetch for subscriber data
+        </script>
+    </body>
+</html>

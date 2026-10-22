@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RumbleDash</title>
+        <link rel="stylesheet" href="dashboardui.css" />
+
+        <!-- Font Awesome CDN -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="dashboard-container">
+            <aside class="sidebar">
+                <h2 class="logo">
+                    <a class="logolink" href="https://custombar.github.io/RumbleDash" target="_blank">
+                        <img class="rumbledashlogo" src="Assets/RumbleDash Branding web logo.png" alt="RumbleDash"></a>
+                </h2>
+
+                <p class="versioncontrol">v2.28</p>
+
+                <div class="divider"></div>
+
+                <ul>
+                    <li>
+                        <a class="pagebutton" href="/">Back to RumbleDash</a>
+                        <a class="pagebutton" href="form">Submit Your Feedback</a>
+                        <a class="pagebutton" href="changelog">Update History</a>
+                        <a class="pagebutton" href="contributors">Contributors</a>
+                    </li>
+                </ul>
+
+                <div id="donate-button-container">
+                    <button id="custom-donate-button" onclick="openPayPalDonation()"><img class="paypallogo" src="https://pngimg.com/uploads/paypal/paypal_PNG16.png"> Donate</button>
+                </div>
+                <script>
+                  function openPayPalDonation() {
+                      window.open(
+                      'https://www.paypal.com/donate?hosted_button_id=4J4ZYEGVSMNJN',
+                      'paypal',
+                      'width=600,height=700'
+                      );
+                  }
+                </script>
+
+                <div class="divider"></div>
+
+                <div id="paypal-button-container-P-1D988898DK4677808M4WRT5I"></div>
+                <script src="https://www.paypal.com/sdk/js?client-id=AefEEDN_AYZXiu8TcLcIMY6I5T-uTtUW1yjbElSH1QWQxIeCf_YUuY-xB7Dj5dOa1sreve_0Rwsvf-y0&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+                <script>
+                  paypal.Buttons({
+                      style: {
+                          shape: 'pill',
+                          color: 'blue',
+                          layout: 'vertical',
+                          label: 'subscribe'
+                      },
+                      createSubscription: function(data, actions) {
+                          return actions.subscription.create({
+                          /* Creates the subscription */
+                          plan_id: 'P-1D988898DK4677808M4WRT5I'
+                          });
+                      },
+                      onApprove: function(data, actions) {
+                          alert(data.subscriptionID); // You can add optional success message for the subscriber here
+                      }
+                  }).render('#paypal-button-container-P-1D988898DK4677808M4WRT5I'); // Renders the PayPal button
+                </script>
+            </aside>
+
+            <div class="main-content">
+                <header>
+                    <h1>Config Panel</h1>
+                </header>
+
+                <!-- Ad Placement -->
+                <div id="ad-container">
+                    <a id="ad-link" href="https://rumble.bot/" target="_blank">
+                        <p class="adlabel"><i class="fa-solid fa-crown" style="color: #ffffff;"></i> AD</p>
+                        <img id="ad-image" class="adbanner" src="Assets/promotions/Affiliate Banners RumbleBot.png"/>
+                    </a>
+                </div>
+
+                <!-- Ad Handling Script -->
+                <script src="js/script.js"></script>
+
+                <main>
+                    <section class="dashboard-grid">
+                        <div class="card">
+                            <h2>Followers</h2>
+                            <p id="followerCount">0</p>
+                            <div class="progress-bar">
+                                <div
+                                    class="progress"
+                                    id="followerProgress"
+                                ></div>
+                            </div>
+                            <div class="field">
+                                <label for="followersGoal"
+                                    >Set a Follower Goal:</label
+                                >
+                                <input
+                                    type="number"
+                                    id="followersGoal"
+                                    placeholder="Enter follower goal"
+                                />
+                            </div>
+                            <div class="field">
+                                <label for="followerWidgetUrl"
+                                    >Widget URL:</label
+                                >
+                                <input
+                                    type="text"
+                                    id="followerWidgetUrl"
+                                    value=""
+                                    readonly
+                                />
+                            </div>
+                            <button id="saveButton" class="btn-primary">
+                                Update Widget
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <h2>Subscribers</h2>
+                            <p id="subscriberCount">0</p>
+                            <div class="progress-bar">
+                                <div
+                                    class="progress"
+                                    id="subscriberProgress"
+                                ></div>
+                            </div>
+                            <div class="field">
+                                <label for="subscribersGoal"
+                                    >Set a Subscriber Goal:</label
+                                >
+                                <input
+                                    type="number"
+                                    id="subscribersGoal"
+                                    placeholder="Enter subscriber goal"
+                                />
+                            </div>
+                            <div class="field">
+                                <label for="subscriberWidgetUrl"
+                                    >Widget URL:</label
+                                >
+                                <input
+                                    type="text"
+                                    id="subscriberWidgetUrl"
+                                    value=""
+                                    readonly
+                                />
+                            </div>
+                            <button id="saveButton" class="btn-primary">
+                                Update Widget
+                            </button>
+                        </div>
+                    </section>
+                    <section id="dashboard" class="card config-section">
+                        <div class=" field">
+                            <h2>Rumble API URL: <span class="message" id="message"></span></h2>
+                            <input
+                                type="password"
+                                id="apiUrl"
+                                placeholder="Enter your Rumble API URL"
+                            />
+                            <p class="spacearound">You can get your Rumble API URL at your <a target="_blank" class="link" href="https://rumble.com/account/livestream-api">Rumble Live Streaming API Page</a> Generate a API URL if you Didn't already and Copy it then Paste it above in the Input field, Then Click on Save</p>
+                            <button id="clearApiUrlButton" class="btn-clear">
+                                Clear API URL
+                            </button>
+                            <button id="saveButton" class="btn-primary">
+                                Save Config
+                            </button>
+                        </div>
+                    </section>
+                    <h4 class="zabranding">Made with ❤️ from South Africa</h4>
+                </main>
+            </div>
+        </div>
+        <script>
+
+            async function loadConfig() {
+                try {
+                    const response = await fetch("/api/config");
+                    const config = await response.json();
+                    document.getElementById("apiUrl").value =
+                        config.apiUrl || "";
+                    document.getElementById("followersGoal").value =
+                        config.goals.followers || 0;
+                    document.getElementById("subscribersGoal").value =
+                        config.goals.subscribers || 0;
+                } catch (error) {
+                    console.error("Error loading config:", error);
+                }
+            }
+
+            async function updateProgressBars() {
+                try {
+                    const response = await fetch("/api/dashboard");
+                    if (!response.ok)
+                        throw new Error("Error fetching dashboard data.");
+
+                    const data = await response.json();
+                    document.getElementById("followerCount").innerText =
+                        data.followers || 0;
+                    document.getElementById("subscriberCount").innerText =
+                        data.subscribers || 0;
+
+                    // Update progress bars as before...
+                    updateProgressBar(
+                        "followerProgress",
+                        data.followers,
+                        data.goals.followers,
+                    );
+                    updateProgressBar(
+                        "subscriberProgress",
+                        data.subscribers,
+                        data.goals.subscribers,
+                    );
+                } catch (error) {
+                    console.error("Error updating progress bars:", error);
+                }
+            }
+
+            function updateProgressBar(elementId, currentValue, goalValue) {
+                const percentage = Math.min((currentValue / goalValue) * 100, 100); // Cap at 100%
+                document.getElementById(elementId).style.width = `${percentage}%`;
+            }
+
+            document.getElementById('followersGoal').addEventListener('input', () => {
+                const currentFollowers = parseInt(document.getElementById('followerCount').innerText) || 0;
+                const newGoal = parseInt(document.getElementById('followersGoal').value) || 0;
+
+                updateProgressBar('followerProgress', currentFollowers, newGoal);
+            });
+
+            document.getElementById('subscribersGoal').addEventListener('input', () => {
+                const currentSubscribers = parseInt(document.getElementById('subscriberCount').innerText) || 0;
+                const newGoal = parseInt(document.getElementById('subscribersGoal').value) || 0;
+
+                updateProgressBar('subscriberProgress', currentSubscribers, newGoal);
+            });
+
+
+            async function loadServerIP() {
+                try {
+                    const response = await fetch("/api/server-ip");
+                    const data = await response.json();
+                    const baseUrl = `http://${data.ip}:${data.port}`;
+                    document.getElementById("followerWidgetUrl").value =
+                        `${baseUrl}/followers`;
+                    document.getElementById("subscriberWidgetUrl").value =
+                        `${baseUrl}/subscribers`;
+
+                    document.getElementById("widgetUrl").value = baseUrl;
+                } catch (error) {
+                    console.error("Error fetching server IP:", error);
+                }
+            }
+
+            window.onload = () => {
+                loadConfig();
+                updateProgressBars();
+                loadServerIP();
+            };
+
+            document
+                .getElementById("saveButton")
+                .addEventListener("click", async () => {
+                    const newConfig = {
+                        apiUrl: document.getElementById("apiUrl").value,
+                        goals: {
+                            followers:
+                                parseInt(
+                                    document.getElementById("followersGoal")
+                                        .value,
+                                ) || 0,
+                            subscribers:
+                                parseInt(
+                                    document.getElementById("subscribersGoal")
+                                        .value,
+                                ) || 0,
+                        },
+                    };
+
+                    try {
+                        const response = await fetch("/api/update-config", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(newConfig),
+                        });
+
+                        if (response.ok) {
+                            document.getElementById("message").innerText =
+                                "Configuration updated successfully!";
+                            loadConfig();
+                        } else {
+                            throw new Error("Failed to update configuration");
+                        }
+                    } catch (error) {
+                        document.getElementById("message").innerText =
+                            "Error updating configuration: " + error.message;
+                    }
+                });
+
+            document
+                .getElementById("clearApiUrlButton")
+                .addEventListener("click", async () => {
+                    try {
+                        const response = await fetch("/api/clear-api-url", {
+                            method: "POST",
+                        });
+                        if (response.ok) {
+                            document.getElementById("message").innerText =
+                                "API URL cleared successfully!";
+                            loadConfig();
+                        } else {
+                            throw new Error("Failed to clear API URL");
+                        }
+                    } catch (error) {
+                        document.getElementById("message").innerText =
+                            "Error clearing API URL: " + error.message;
+                    }
+                });
+
+            document.addEventListener("DOMContentLoaded", () => {
+                loadConfig();
+                updateProgressBars();
+                loadServerIP();
+            });
+        </script>
+    </body>
+</html>

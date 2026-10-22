@@ -1,0 +1,86 @@
+:root {
+    --progress-fill-gradient: linear-gradient(to bottom, #62f600, #648c01);
+    --progress-bg: #fff;
+    --progress-height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.widget {
+    text-align: center;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.progress-container {
+    width: 100%; /* Full width of the container */
+    height: 50vh; /* 50% of the viewport height */
+    max-height: 600px; /* Cap the height to prevent it from growing too large */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.progress-bar {
+    position: relative;
+    flex: 1;
+    height: 60px;
+    background-color: var(--progress-bg);
+    border-radius: 15px; /* Rounded corners */
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid black;
+    display: flex; /* Use flexbox to align children */
+    align-items: center; /* Center children vertically */
+}
+
+.progress {
+    height: var(--progress-height);
+    background: var(--progress-fill-gradient);
+    transition: width 0.5s ease;
+}
+
+.counter,
+.goal,
+.followers {
+    color: #1f1f1f;
+    font-size: 34px; /* Font size */
+    font-weight: 700;
+    line-height: 40px; /* Set this to match the height of the progress bar */
+    position: absolute;
+    z-index: 2; /* Ensure text is above progress bar */
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center vertically */
+}
+
+.invertcolor {
+    mix-blend-mode: none;
+    z-index: 2; /* Ensure it appears above the progress bar */
+}
+
+.followers {
+    left: 50%; /* Start at the middle of the bar */
+    transform: translateX(-50%); /* Center it horizontally */
+    text-align: center; /* Center text */
+}
+
+.counter {
+    left: 40px; /* Space from the left edge of the progress bar */
+}
+
+.goal {
+    right: 40px; /* Space from the right edge of the progress bar */
+}

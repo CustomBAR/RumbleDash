@@ -1,0 +1,27 @@
+[package]
+name = "rumbledash-server"
+description = "HTTP server that powers the RumbleDash v3 OBS widgets and JSON API"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lib]
+name = "rumbledash_server"
+path = "src/lib.rs"
+
+[[bin]]
+name = "rumbledash-server"
+path = "src/bin/server.rs"
+
+[dependencies]
+rumbledash-core.workspace = true
+axum.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

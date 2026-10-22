@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RumbleDash – the dashboard for Rumble streamers</title>
+        <meta
+            name="description"
+            content="RumbleDash tracks your Rumble followers and subscribers live, renders them as goal progress bars and serves OBS browser-source widgets. v3 is a native desktop app written in Rust."
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <link
+            rel="icon"
+            href="assets/rumbledash.png"
+        />
+    </head>
+    <body>
+        <!-- Hero -->
+        <header class="hero">
+            <div class="container text-center">
+                <p class="eyebrow">RumbleDash <span class="version">v3</span></p>
+                <h1>The Ultimate Dashboard for Rumble Streamers</h1>
+                <p class="tagline">
+                    A native desktop app that tracks your Rumble followers and
+                    subscribers live, charts them against your goals and pushes
+                    them straight onto your stream.
+                </p>
+                <div class="actions">
+                    <a
+                        href="https://github.com/CustomBAR/RumbleDash/releases/latest"
+                        class="btn primary-btn"
+                        >Download v3</a
+                    >
+                    <a
+                        href="https://github.com/CustomBAR/RumbleDash"
+                        class="btn ghost-btn"
+                        >View source</a
+                    >
+                </div>
+            </div>
+        </header>
+
+        <!-- App screenshot -->
+        <div class="container">
+            <figure class="shot">
+                <img
+                    src="docs/screenshot.png"
+                    alt="The RumbleDash v3 desktop app showing the live follower and subscriber snapshot"
+                />
+                <figcaption>
+                    The v3 desktop app – live snapshot, goal progress and
+                    copy-ready widget URLs.
+                </figcaption>
+            </figure>
+        </div>
+
+        <!-- Features -->
+        <section id="features" class="features">
+            <div class="container">
+                <h2 class="text-center">What makes RumbleDash awesome?</h2>
+                <div class="grid">
+                    <article class="feature-item">
+                        <h3>Real-time analytics</h3>
+                        <p>
+                            Follower and subscriber counts are polled from the
+                            Rumble API with a five second cache and appear
+                            instantly in the app and in your widgets.
+                        </p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>Goal progress</h3>
+                        <p>
+                            Set a follower goal and a subscriber goal, then let
+                            the progress bars do the talking – in the app and on
+                            your stream.
+                        </p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>Native desktop app</h3>
+                        <p>
+                            Version 3 is written in Rust with egui: a charcoal
+                            interface, a single ember accent and no browser
+                            required.
+                        </p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>OBS widgets</h3>
+                        <p>
+                            Copy the widget URL and paste it into an OBS browser
+                            source. The widgets are built into the binary, so
+                            they work from any folder.
+                        </p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>Drop-in configuration</h3>
+                        <p>
+                            <code>config.json</code> is byte-compatible with v2.
+                            Point the app at your existing file and carry on where
+                            you left off.
+                        </p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>Headless option</h3>
+                        <p>
+                            Prefer no window? Run the embedded server on its own
+                            and let it feed your widgets around the clock.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- OBS widget artwork -->
+        <section class="widget-shot">
+            <div class="container text-center">
+                <h2>OBS widgets via browser source.</h2>
+                <img
+                    src="assets/obs-rumbledash-widget.png"
+                    alt="A RumbleDash overlay widget running in OBS"
+                />
+            </div>
+        </section>
+
+        <!-- Call to action -->
+        <section class="cta">
+            <div id="download" class="container text-center">
+                <h2>Start enhancing your stream today</h2>
+                <p>
+                    RumbleDash v3 is a single zip – the desktop app and the
+                    standalone widget server, no runtime required.
+                </p>
+                <a
+                    href="https://github.com/CustomBAR/RumbleDash/releases/latest"
+                    class="btn primary-btn"
+                    >Download now</a
+                >
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container text-center">
+                <p>Made with &#10084; for Rumble Streamers</p>
+                <p>&copy; 2024&ndash;2026 RumbleDash. All rights reserved.</p>
+            </div>
+        </footer>
+    </body>
+</html>

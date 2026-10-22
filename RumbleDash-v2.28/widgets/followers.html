@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Followers Goal - Rumble Streamer Dashboard</title>
+        <link rel="stylesheet" href="followers.css" />
+        <!-- Link to your existing styles -->
+    </head>
+    <body>
+        <div class="widget">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <span class="invertcolor followers">Followers</span>
+                    <span class="invertcolor counter" id="followerCount">0</span>
+                    <span class="invertcolor goal" id="followerGoal">0</span>
+                    <div class="progress" id="followerProgress"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/public/script.js"></script>
+        <!-- Link to your client-side JavaScript -->
+        <script>
+            async function updateFollowerData() {
+                const response = await fetch("/api/dashboard");
+                if (!response.ok) {
+                    console.error(
+                        "Error fetching follower data:",
+                        response.statusText,
+                    );
+                    return;
+                }
+
+                const data = await response.json();
+
+                // Update follower count
+                document.getElementById("followerCount").innerText =
+                    data.followers;
+
+                // Update goal
+                document.getElementById("followerGoal").innerText =
+                    data.goals.followers;
+
+                // Update progress bar
+                const followerProgress =
+                    document.getElementById("followerProgress");
+                const followerGoal = data.goals.followers;
+
+                const followerPercentage =
+                    (data.followers / followerGoal) * 100;
+                followerProgress.style.width = `${followerPercentage}%`;
+            }
+
+            // Update follower data every 5 seconds
+            setInterval(updateFollowerData, 5000);
+            updateFollowerData(); // Initial fetch for follower data
+
+            let cssFile = "followers.css";
+            let lastModifiedTime = null;
+
+            function checkForCssUpdate() {
+                fetch(cssFile + "?v=" + new Date().getTime()) // Add timestamp to avoid cache
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.headers.get("Last-Modified"); // Get the Last-Modified header
+                    })
+                    .then((modifiedTime) => {
+                        if (
+                            lastModifiedTime &&
+                            lastModifiedTime !== modifiedTime
+                        ) {
+                            // If the file has been updated, reload the widget
+                            window.location.reload();
+                        }
+                        lastModifiedTime = modifiedTime; // Store the latest modification time
+                    })
+                    .catch((error) =>
+                        console.log("Error checking CSS file:", error),
+                    );
+            }
+
+            // Check for updates every 5 seconds
+            setInterval(checkForCssUpdate, 5000);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,90 @@
+:root {
+    --progress-fill-gradient: linear-gradient(to bottom, #ffa366, #ff6b1a);
+    --progress-bg: #f7efe8;
+    --progress-height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: transparent;
+    overflow: hidden;
+}
+
+.widget {
+    text-align: center;
+    width: 100%;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.progress-container {
+    width: 100%;
+    height: 50vh;
+    max-height: 600px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.progress-bar {
+    position: relative;
+    flex: 1;
+    height: 60px;
+    background-color: var(--progress-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid #2f323a;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.progress {
+    height: var(--progress-height);
+    background: var(--progress-fill-gradient);
+    transition: width 0.5s ease;
+}
+
+.counter,
+.goal,
+.followers {
+    color: #241a12;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 40px;
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.invertcolor {
+    mix-blend-mode: none;
+    z-index: 2;
+}
+
+.followers {
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.counter {
+    left: 40px;
+}
+
+.goal {
+    right: 40px;
+}

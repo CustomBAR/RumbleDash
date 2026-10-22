@@ -1,0 +1,63 @@
+name: Rust CI
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "RustPort/**"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    paths:
+      - "RustPort/**"
+      - ".github/workflows/ci.yml"
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  build:
+    name: build & test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: RustPort/RumbleDash-v3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install the Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache the cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            RustPort/RumbleDash-v3/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('RustPort/RumbleDash-v3/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Check the formatting
+        run: cargo fmt --all --check
+
+      - name: Lint
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Test
+        run: cargo test --workspace
+
+      - name: Build the release binaries
+        run: cargo build --release --workspace
+
+      - name: Upload the binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: rumbledash-linux-x64
+          path: RustPort/RumbleDash-v3/target/release/rumbledash*
+          if-no-files-found: error
