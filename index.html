@@ -1,148 +1,329 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
     <head>
         <meta charset="UTF-8" />
+        <script>
+            // Swap the marker class as early as possible so the reveal
+            // animations only hide content when JavaScript is available.
+            document.documentElement.classList.replace("no-js", "js");
+        </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>RumbleDash – the dashboard for Rumble streamers</title>
+        <title>RumbleDash – live Rumble stats for your stream</title>
         <meta
             name="description"
-            content="RumbleDash tracks your Rumble followers and subscribers live, renders them as goal progress bars and serves OBS browser-source widgets. v3 is a native desktop app written in Rust."
+            content="RumbleDash is a native desktop dashboard for Rumble streamers. It tracks your followers and subscribers live, charts them against your goals and serves OBS browser-source widgets. Version 3 is written in Rust with egui."
         />
+        <meta name="theme-color" content="#0e0f12" />
+        <meta property="og:title" content="RumbleDash" />
+        <meta
+            property="og:description"
+            content="Live Rumble follower and subscriber counts, goal progress bars and OBS widgets – in a native desktop app."
+        />
+        <meta property="og:image" content="https://custombar.github.io/RumbleDash/docs/screenshot.png" />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
         <link rel="stylesheet" href="styles.css" />
-        <link
-            rel="icon"
-            href="assets/rumbledash.png"
-        />
     </head>
     <body>
-        <!-- Hero -->
-        <header class="hero">
-            <div class="container text-center">
-                <p class="eyebrow">RumbleDash <span class="version">v3</span></p>
-                <h1>The Ultimate Dashboard for Rumble Streamers</h1>
-                <p class="tagline">
-                    A native desktop app that tracks your Rumble followers and
-                    subscribers live, charts them against your goals and pushes
-                    them straight onto your stream.
-                </p>
-                <div class="actions">
+        <!-- Scroll progress -->
+        <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+        <!-- Ambient background -->
+        <div class="backdrop" aria-hidden="true">
+            <span class="orb orb-a"></span>
+            <span class="orb orb-b"></span>
+            <span class="orb orb-c"></span>
+            <span class="grid-lines"></span>
+        </div>
+
+        <!-- Header -->
+        <header class="site-header" id="top">
+            <div class="container header-inner">
+                <a class="brand" href="#top">
+                    <svg
+                        class="brand-mark"
+                        viewBox="0 0 64 64"
+                        aria-hidden="true"
+                        focusable="false"
+                    >
+                        <rect x="14" y="34" width="9" height="16" rx="4.5" />
+                        <rect x="27.5" y="24" width="9" height="26" rx="4.5" />
+                        <rect x="41" y="14" width="9" height="36" rx="4.5" />
+                    </svg>
+                    <span class="brand-name">RumbleDash</span>
+                    <span class="brand-tag">v3</span>
+                </a>
+
+                <nav class="nav" id="nav" aria-label="Main">
+                    <a href="#features">Features</a>
+                    <a href="#widgets">Widgets</a>
+                    <a href="#download">Download</a>
                     <a
+                        class="btn btn-primary btn-small nav-cta"
                         href="https://github.com/CustomBAR/RumbleDash/releases/latest"
-                        class="btn primary-btn"
-                        >Download v3</a
+                        >Get v3</a
                     >
-                    <a
-                        href="https://github.com/CustomBAR/RumbleDash"
-                        class="btn ghost-btn"
-                        >View source</a
-                    >
-                </div>
+                </nav>
+
+                <button
+                    class="nav-toggle"
+                    id="nav-toggle"
+                    aria-label="Open menu"
+                    aria-expanded="false"
+                    aria-controls="nav"
+                >
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </header>
 
-        <!-- App screenshot -->
-        <div class="container">
-            <figure class="shot">
-                <img
-                    src="docs/screenshot.png"
-                    alt="The RumbleDash v3 desktop app showing the live follower and subscriber snapshot"
-                />
-                <figcaption>
-                    The v3 desktop app – live snapshot, goal progress and
-                    copy-ready widget URLs.
-                </figcaption>
-            </figure>
-        </div>
+        <main>
+            <!-- Hero -->
+            <section class="hero">
+                <div class="container hero-inner">
+                    <div class="hero-copy">
+                        <p class="kicker">
+                            <span class="kicker-dot"></span>
+                            <span class="kicker-rotator" id="rotator"></span>
+                        </p>
 
-        <!-- Features -->
-        <section id="features" class="features">
-            <div class="container">
-                <h2 class="text-center">What makes RumbleDash awesome?</h2>
-                <div class="grid">
-                    <article class="feature-item">
-                        <h3>Real-time analytics</h3>
-                        <p>
-                            Follower and subscriber counts are polled from the
-                            Rumble API with a five second cache and appear
-                            instantly in the app and in your widgets.
+                        <h1>
+                            Your Rumble numbers,<br />
+                            <span class="accent">live on stream.</span>
+                        </h1>
+
+                        <p class="lede">
+                            RumbleDash is a native desktop dashboard for Rumble
+                            streamers. It polls your channel, charts your
+                            followers and subscribers against your goals and
+                            pushes them straight into OBS.
                         </p>
-                    </article>
-                    <article class="feature-item">
-                        <h3>Goal progress</h3>
-                        <p>
-                            Set a follower goal and a subscriber goal, then let
-                            the progress bars do the talking – in the app and on
-                            your stream.
-                        </p>
-                    </article>
-                    <article class="feature-item">
-                        <h3>Native desktop app</h3>
-                        <p>
-                            Version 3 is written in Rust with egui: a charcoal
-                            interface, a single ember accent and no browser
-                            required.
-                        </p>
-                    </article>
-                    <article class="feature-item">
-                        <h3>OBS widgets</h3>
-                        <p>
-                            Copy the widget URL and paste it into an OBS browser
-                            source. The widgets are built into the binary, so
-                            they work from any folder.
-                        </p>
-                    </article>
-                    <article class="feature-item">
-                        <h3>Drop-in configuration</h3>
-                        <p>
-                            <code>config.json</code> is byte-compatible with v2.
-                            Point the app at your existing file and carry on where
-                            you left off.
-                        </p>
-                    </article>
-                    <article class="feature-item">
-                        <h3>Headless option</h3>
-                        <p>
-                            Prefer no window? Run the embedded server on its own
-                            and let it feed your widgets around the clock.
-                        </p>
-                    </article>
+
+                        <div class="hero-actions">
+                            <a
+                                class="btn btn-primary"
+                                href="https://github.com/CustomBAR/RumbleDash/releases/latest"
+                                data-magnetic
+                                >Download for Windows</a
+                            >
+                            <a
+                                class="btn btn-ghost"
+                                href="https://github.com/CustomBAR/RumbleDash"
+                                data-magnetic
+                                >View on GitHub</a
+                            >
+                        </div>
+
+                        <ul class="hero-meta">
+                            <li>No installer</li>
+                            <li>No Node.js</li>
+                            <li>MIT licensed</li>
+                        </ul>
+                    </div>
+
+                    <div class="hero-visual">
+                        <div class="shot" data-tilt>
+                            <div class="shot-frame">
+                                <span class="shot-bar"><i></i><i></i><i></i></span>
+                                <img
+                                    src="docs/screenshot.png"
+                                    alt="The RumbleDash v3 desktop app: a live follower and subscriber snapshot with goal progress bars and copyable widget URLs"
+                                    width="1280"
+                                    height="819"
+                                />
+                            </div>
+                            <span class="shot-glow" aria-hidden="true"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- OBS widget artwork -->
-        <section class="widget-shot">
-            <div class="container text-center">
-                <h2>OBS widgets via browser source.</h2>
-                <img
-                    src="assets/obs-rumbledash-widget.png"
-                    alt="A RumbleDash overlay widget running in OBS"
-                />
-            </div>
-        </section>
+            <!-- Stats -->
+            <section class="stats">
+                <div class="container">
+                    <dl class="stats-grid">
+                        <div class="stat reveal">
+                            <dt>Live poll interval</dt>
+                            <dd><span data-count="5">5</span>s</dd>
+                        </div>
+                        <div class="stat reveal">
+                            <dt>OBS widgets</dt>
+                            <dd><span data-count="2">2</span></dd>
+                        </div>
+                        <div class="stat reveal">
+                            <dt>Config files to edit</dt>
+                            <dd><span data-count="1">1</span></dd>
+                        </div>
+                        <div class="stat reveal">
+                            <dt>Extra dependencies</dt>
+                            <dd><span data-count="0">0</span></dd>
+                        </div>
+                    </dl>
+                </div>
+            </section>
 
-        <!-- Call to action -->
-        <section class="cta">
-            <div id="download" class="container text-center">
-                <h2>Start enhancing your stream today</h2>
-                <p>
-                    RumbleDash v3 is a single zip – the desktop app and the
-                    standalone widget server, no runtime required.
+            <!-- Features -->
+            <section class="section" id="features">
+                <div class="container">
+                    <header class="section-head reveal">
+                        <p class="eyebrow">What you get</p>
+                        <h2>Everything a streamer needs, nothing else.</h2>
+                    </header>
+
+                    <div class="feature-grid">
+                        <article class="feature reveal">
+                            <span class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 17l5-6 4 4 4-7 5 5" />
+                                </svg>
+                            </span>
+                            <h3>Live counters</h3>
+                            <p>
+                                Follower and subscriber counts are pulled from the
+                                Rumble API with a five second cache and land in
+                                the app and your widgets instantly.
+                            </p>
+                        </article>
+
+                        <article class="feature reveal">
+                            <span class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <circle cx="12" cy="12" r="4.5" />
+                                    <circle cx="12" cy="12" r="1" />
+                                </svg>
+                            </span>
+                            <h3>Goal progress</h3>
+                            <p>
+                                Set a follower goal and a subscriber goal, then
+                                watch the bars fill. The dashboard shows the
+                                percentage, the widgets show the bar.
+                            </p>
+                        </article>
+
+                        <article class="feature reveal">
+                            <span class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2.5" y="4" width="19" height="13" rx="2" />
+                                    <path d="M8 21h8M12 17v4" />
+                                </svg>
+                            </span>
+                            <h3>Native desktop app</h3>
+                            <p>
+                                Version 3 is written in Rust with egui: a
+                                charcoal interface, one ember accent and no
+                                browser in sight.
+                            </p>
+                        </article>
+
+                        <article class="feature reveal">
+                            <span class="feature-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 8.5l-4 3.5 4 3.5M15 8.5l4 3.5-4 3.5" />
+                                </svg>
+                            </span>
+                            <h3>Drop-in config</h3>
+                            <p>
+                                <code>config.json</code> is byte-compatible with
+                                v2 and every v2 endpoint is preserved, so your
+                                existing setup keeps working.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Widgets -->
+            <section class="section section-alt" id="widgets">
+                <div class="container widgets-inner">
+                    <div class="widgets-copy reveal">
+                        <p class="eyebrow">OBS widgets</p>
+                        <h2>Copy the URL. Done.</h2>
+                        <p>
+                            Add a <strong>Browser</strong> source in OBS and
+                            paste one of these. The widgets are compiled into
+                            the binary, so they work from any folder and any
+                            machine.
+                        </p>
+
+                        <ul class="widget-urls">
+                            <li>
+                                <button
+                                    class="copy-chip"
+                                    data-copy="http://YOUR-IP:9000/followers"
+                                    type="button"
+                                >
+                                    <code>/followers</code>
+                                    <span class="copy-label">Copy</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    class="copy-chip"
+                                    data-copy="http://YOUR-IP:9000/subscribers"
+                                    type="button"
+                                >
+                                    <code>/subscribers</code>
+                                    <span class="copy-label">Copy</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <figure class="widget-shot reveal">
+                        <img
+                            src="assets/obs-rumbledash-widget.png"
+                            alt="A RumbleDash goal overlay running as an OBS browser source"
+                            loading="lazy"
+                        />
+                    </figure>
+                </div>
+            </section>
+
+            <!-- Download -->
+            <section class="section" id="download">
+                <div class="container">
+                    <div class="download-card reveal">
+                        <div>
+                            <h2>Start enhancing your stream today</h2>
+                            <p>
+                                One zip. The desktop app, the standalone widget
+                                server, a sample config and the licence.
+                            </p>
+                        </div>
+                        <a
+                            class="btn btn-primary btn-large"
+                            href="https://github.com/CustomBAR/RumbleDash/releases/latest"
+                            data-magnetic
+                            >Download v3.0.0</a
+                        >
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container footer-inner">
+                <p class="footer-brand">RumbleDash</p>
+                <nav class="footer-links" aria-label="Footer">
+                    <a href="https://github.com/CustomBAR/RumbleDash/releases/latest"
+                        >Releases</a
+                    >
+                    <a href="https://github.com/CustomBAR/RumbleDash">Source</a>
+                    >
+                    <a
+                        href="https://github.com/CustomBAR/RumbleDash/tree/main/RustPort/RumbleDash-v3"
+                        >Docs</a
+                    >
+                </nav>
+                <p class="footer-note">
+                    Made with &#10084; for Rumble Streamers &middot; MIT
                 </p>
-                <a
-                    href="https://github.com/CustomBAR/RumbleDash/releases/latest"
-                    class="btn primary-btn"
-                    >Download now</a
-                >
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container text-center">
-                <p>Made with &#10084; for Rumble Streamers</p>
-                <p>&copy; 2024&ndash;2026 RumbleDash. All rights reserved.</p>
             </div>
         </footer>
+
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+        <script src="script.js" defer></script>
     </body>
 </html>

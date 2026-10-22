@@ -58,6 +58,7 @@ RumbleDash/
 ├── docs/                     # screenshots used by the README and the site
 ├── assets/                   # logo and OBS widget artwork for GitHub Pages
 ├── index.html, styles.css    # the GitHub Pages landing page
+├── script.js                 # the landing page animations (no dependencies)
 ├── RumbleDash-v2.28/         # the legacy Node.js app (v2.28), kept for reference
 └── RustPort/
     └── RumbleDash-v3/        # the current app – a Rust workspace
@@ -66,6 +67,9 @@ RumbleDash/
             ├── rumbledash-server/  # axum HTTP server + embedded widget assets
             └── rumbledash-app/     # the egui desktop application
 ```
+
+The landing page is plain HTML, CSS and one dependency-free script – no build step,
+no framework. It is deployed by `.github/workflows/static.yml`.
 
 ---
 
