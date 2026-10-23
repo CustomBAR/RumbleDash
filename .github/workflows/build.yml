@@ -1,0 +1,276 @@
+name: Build
+
+# Builds the two desktop releases:
+#   * Windows x64  -> RumbleDash-<version>-windows-x64.zip
+#   * Linux x64    -> RumbleDash-<version>-x86_64.AppImage
+#
+# Artifacts are attached to the GitHub Release when a `v*` tag is pushed.
+on:
+  push:
+    branches: ["main"]
+    tags: ["v*"]
+  pull_request:
+    paths:
+      - "RustPort/**"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  windows:
+    name: Windows (x64)
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: RustPort/RumbleDash-v3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install the Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache the cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            RustPort/RumbleDash-v3/target
+          key: ${{ runner.os }}-release-cargo-${{ hashFiles('RustPort/RumbleDash-v3/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-release-cargo-
+
+      - name: Read the workspace version
+        shell: pwsh
+        run: |
+          $version = (Select-String -Path Cargo.toml -Pattern '^version = "(.*)"').Matches[0].Groups[1].Value
+          if (-not $version) { throw "could not read the version from Cargo.toml" }
+          "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Write-Output "Building RumbleDash $version"
+
+      - name: Build the release binaries
+        run: cargo build --release --workspace
+
+      - name: Smoke test the headless server
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $env:RUMBLE_DASH_PORT = "9123"
+          $server = Start-Process -FilePath "target\release\rumbledash-server.exe" -PassThru `
+            -RedirectStandardOutput "server.out.log" -RedirectStandardError "server.err.log"
+          try {
+            $healthy = $false
+            for ($attempt = 1; $attempt -le 60; $attempt++) {
+              Start-Sleep -Milliseconds 500
+              if ($server.HasExited) { break }
+              try {
+                $health = Invoke-RestMethod -Uri "http://127.0.0.1:9123/api/health" -TimeoutSec 2
+                if ($health.status -eq "ok") {
+                  $healthy = $true
+                  Write-Output "health: $($health | ConvertTo-Json -Compress)"
+                  break
+                }
+              } catch {
+                # not listening yet
+              }
+            }
+            if (-not $healthy) {
+              Get-Content server.out.log, server.err.log -ErrorAction SilentlyContinue
+              throw "rumbledash-server did not become healthy"
+            }
+          } finally {
+            if (-not $server.HasExited) { Stop-Process -Id $server.Id -Force }
+          }
+
+      - name: Package the Windows build
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist/package | Out-Null
+          Copy-Item target\release\rumbledash.exe dist\package\
+          Copy-Item target\release\rumbledash-server.exe dist\package\
+          Copy-Item ..\..\LICENSE dist\package\
+          Copy-Item README.md dist\package\
+          Copy-Item config.example.json dist\package\
+          $zip = "dist/RumbleDash-$env:VERSION-windows-x64.zip"
+          Compress-Archive -Path dist\package\* -DestinationPath $zip -Force
+          Get-Item $zip | Select-Object Name, Length
+
+      - name: Upload the Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: RumbleDash-windows-x64
+          path: RustPort/RumbleDash-v3/dist/RumbleDash-*-windows-x64.zip
+          if-no-files-found: error
+          retention-days: 30
+
+  linux:
+    name: Linux (x64, AppImage)
+    # Pinned to 22.04 (glibc 2.35) so the AppImage runs on any reasonably
+    # recent distribution instead of requiring the runner's newer glibc.
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: RustPort/RumbleDash-v3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install the system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pkg-config \
+            libssl-dev \
+            libx11-dev libxi-dev libxcursor-dev libxrandr-dev libxinerama-dev \
+            libxkbcommon-dev libxkbcommon-x11-dev libwayland-dev \
+            libgl1-mesa-dev libegl1-mesa-dev \
+            xvfb x11-utils xdotool libgl1-mesa-dri libglx-mesa0 \
+            desktop-file-utils
+
+      - name: Install the Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache the cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            RustPort/RumbleDash-v3/target
+          key: ${{ runner.os }}-release-cargo-${{ hashFiles('RustPort/RumbleDash-v3/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-release-cargo-
+
+      - name: Read the workspace version
+        run: |
+          version="$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -n1)"
+          if [ -z "$version" ]; then
+            echo "::error::could not read the version from Cargo.toml"
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          echo "Building RumbleDash $version"
+
+      - name: Build the release binaries
+        run: cargo build --release --workspace
+
+      - name: Smoke test the desktop app
+        run: bash scripts/smoke-test-linux.sh ./target/release/rumbledash 99
+
+      - name: Build the AppImage
+        run: |
+          set -euo pipefail
+          version="${VERSION:?}"
+          rm -rf dist
+          appdir="$PWD/dist/AppDir"
+          mkdir -p "$appdir/usr/bin" \
+                   "$appdir/usr/share/applications" \
+                   "$appdir/usr/share/icons/hicolor/256x256/apps"
+
+          install -m 755 target/release/rumbledash "$appdir/usr/bin/rumbledash"
+          install -m 644 crates/rumbledash-app/assets/icon.png "$appdir/rumbledash.png"
+          install -m 644 crates/rumbledash-app/assets/icon.png \
+            "$appdir/usr/share/icons/hicolor/256x256/apps/rumbledash.png"
+
+          printf '%s\n' \
+            '[Desktop Entry]' \
+            'Type=Application' \
+            'Name=RumbleDash' \
+            'GenericName=Stream Dashboard' \
+            'Comment=Live Rumble follower and subscriber statistics with OBS widgets' \
+            'Exec=rumbledash' \
+            'Icon=rumbledash' \
+            'Terminal=false' \
+            'Categories=AudioVideo;Video;Utility;' \
+            'Keywords=rumble;obs;stream;dashboard;widget;' \
+            'StartupWMClass=rumbledash' \
+            > "$appdir/rumbledash.desktop"
+
+          cp "$appdir/rumbledash.desktop" "$appdir/usr/share/applications/rumbledash.desktop"
+          ln -s usr/bin/rumbledash "$appdir/AppRun"
+
+          # Warnings here are informational; appimagetool validates again below.
+          if ! desktop-file-validate "$appdir/rumbledash.desktop"; then
+            echo "::warning::desktop-file-validate reported problems"
+          fi
+
+          curl -fsSL --retry 5 --retry-delay 3 \
+            -o dist/appimagetool \
+            https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x dist/appimagetool
+          # Runners have no FUSE, so extract-and-run instead of mounting.
+          ARCH=x86_64 APPIMAGE_EXTRACT_AND_RUN=1 ./dist/appimagetool \
+            "$appdir" "dist/RumbleDash-${version}-x86_64.AppImage"
+
+          chmod +x "dist/RumbleDash-${version}-x86_64.AppImage"
+          ls -lh dist
+
+      - name: Smoke test the AppImage
+        run: |
+          appimage="$(ls dist/RumbleDash-*-x86_64.AppImage | head -n1)"
+          APPIMAGE_EXTRACT_AND_RUN=1 bash scripts/smoke-test-linux.sh "$appimage" 98
+
+      - name: Package the plain Linux binaries
+        run: |
+          set -euo pipefail
+          version="${VERSION:?}"
+          rm -rf dist/stage
+          mkdir -p dist/stage
+          install -m 755 target/release/rumbledash dist/stage/
+          install -m 755 target/release/rumbledash-server dist/stage/
+          install -m 644 ../../LICENSE dist/stage/
+          install -m 644 README.md dist/stage/
+          install -m 644 config.example.json dist/stage/
+          tar -czf "dist/RumbleDash-${version}-linux-x64.tar.gz" -C dist/stage .
+          rm -rf dist/stage dist/AppDir dist/appimagetool
+          ls -lh dist
+
+      - name: Upload the Linux builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: RumbleDash-linux-x64
+          path: |
+            RustPort/RumbleDash-v3/dist/RumbleDash-*-x86_64.AppImage
+            RustPort/RumbleDash-v3/dist/RumbleDash-*-linux-x64.tar.gz
+          if-no-files-found: error
+          retention-days: 30
+
+  release:
+    name: Attach the builds to the release
+    needs: [windows, linux]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download the build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Upload them to the tag's release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          ls -lh dist
+          if ! gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$GITHUB_REF_NAME" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "RumbleDash $GITHUB_REF_NAME" \
+              --generate-notes
+          fi
+          gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --clobber

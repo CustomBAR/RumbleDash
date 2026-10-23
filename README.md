@@ -24,9 +24,25 @@ existing OBS source keeps working.
 
 **[⬇ Download the latest release](https://github.com/CustomBAR/RumbleDash/releases/latest)**
 
-Windows builds ship as a single zip containing the desktop app (`rumbledash.exe`)
-and the standalone widget server (`rumbledash-server.exe`). No runtime, no
-installer, no Node.js required.
+Every release ships two builds, produced by
+[`.github/workflows/build.yml`](.github/workflows/build.yml):
+
+| Platform | File | Contents |
+| --- | --- | --- |
+| Windows x64 | `RumbleDash-<version>-windows-x64.zip` | `rumbledash.exe`, `rumbledash-server.exe` |
+| Linux x64 | `RumbleDash-<version>-x86_64.AppImage` | the desktop app, ready to run |
+| Linux x64 | `RumbleDash-<version>-linux-x64.tar.gz` | both binaries, for anyone who prefers a plain tarball |
+
+To run the AppImage:
+
+```bash
+chmod +x RumbleDash-*.AppImage
+./RumbleDash-*.AppImage
+```
+
+If your distribution has no FUSE, run it with
+`APPIMAGE_EXTRACT_AND_RUN=1 ./RumbleDash-*.AppImage` instead.
+No runtime, no installer, no Node.js required.
 
 ---
 
