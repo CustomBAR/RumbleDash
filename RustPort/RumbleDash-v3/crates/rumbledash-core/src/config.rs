@@ -74,7 +74,24 @@ impl Config {
                 std::fs::create_dir_all(parent)?;
             }
         }
-        std::fs::write(path, self.to_json()?)?;
+
+        let json = self.to_json()?;
+        // Write to a temp file first, then rename it. This avoids leaving a
+        // truncated config.json behind if the process is killed mid-write
+        // (and is more reliable on read-only overlay filesystems like AppImages).
+        let mut tmp_path = path.to_path_buf();
+        let file_name = path
+            .file_name()
+            .and_then(|name| name.to_str())
+            .unwrap_or("config.json");
+        tmp_path.set_file_name(format!(".{file_name}.tmp-{}", std::process::id()));
+        std::fs::write(&tmp_path, &json)?;
+        std::fs::rename(&tmp_path, path).or_else(|_| {
+            // Fall back to a direct write if rename isn't possible (e.g. cross-device).
+            let _ = std::fs::remove_file(path);
+            std::fs::write(path, &json)
+        })?;
+        let _ = std::fs::remove_file(&tmp_path);
         Ok(())
     }
 }
@@ -82,15 +99,116 @@ impl Config {
 /// Resolves the location of `config.json`.
 ///
 /// * `RUMBLE_DASH_CONFIG` overrides everything (useful for portable installs)
-/// * otherwise `config.json` next to the current working directory is used,
-///   which keeps the behaviour of the v2 Node build.
+/// * otherwise we try a few sensible locations in order:
+///   1. `config.json` next to the executable (portable installs)
+///   2. `config.json` next to the current working directory (matches v2 behaviour)
+///   3. The user's configuration directory (e.g. `~/.config/rumbledash/config.json`
+///      on Linux/macOS or `%APPDATA%\\RumbleDash\\config.json` on Windows)
+///      so AppImages and read-only installs can still persist settings.
 pub fn default_config_path() -> PathBuf {
     if let Ok(custom) = std::env::var("RUMBLE_DASH_CONFIG") {
         if !custom.trim().is_empty() {
             return PathBuf::from(custom);
         }
     }
-    PathBuf::from("config.json")
+
+    // Try next to the executable first (works well for portable zips/AppDirs).
+    if let Ok(exe) = std::env::current_exe() {
+        if let Some(dir) = exe.parent() {
+            let path = dir.join("config.json");
+            // Prefer an existing config next to the exe, otherwise fall through
+            // to other locations (we may not be able to write next to the exe in
+            // read-only AppImages, but we still want to discover it there).
+            if path.exists() {
+                return path;
+            }
+            // If the exe directory looks writable, use it.
+            if is_writable_dir(dir) {
+                return path;
+            }
+        }
+    }
+
+    // Fall back to the current working directory (v2 compatibility).
+    let cwd_path = PathBuf::from("config.json");
+    if cwd_path.exists() {
+        return cwd_path;
+    }
+    if let Ok(cwd) = std::env::current_dir() {
+        if is_writable_dir(&cwd) {
+            return cwd_path;
+        }
+    }
+
+    // Last resort: use the OS user configuration directory.
+    if let Some(mut dir) = user_config_dir() {
+        dir.push("RumbleDash");
+        let path = dir.join("config.json");
+        return path;
+    }
+
+    cwd_path
+}
+
+fn is_writable_dir(dir: &Path) -> bool {
+    if !dir.exists() {
+        return false;
+    }
+    let test_path = dir.join(".rumbledash-write-test");
+    match std::fs::File::create(&test_path) {
+        Ok(_) => {
+            let _ = std::fs::remove_file(&test_path);
+            true
+        }
+        Err(_) => false,
+    }
+}
+
+fn user_config_dir() -> Option<PathBuf> {
+    #[cfg(target_os = "windows")]
+    {
+        if let Ok(appdata) = std::env::var("APPDATA") {
+            if !appdata.trim().is_empty() {
+                return Some(PathBuf::from(appdata));
+            }
+        }
+        None
+    }
+
+    #[cfg(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd"
+    ))]
+    {
+        if let Ok(xdg) = std::env::var("XDG_CONFIG_HOME") {
+            if !xdg.trim().is_empty() {
+                return Some(PathBuf::from(xdg));
+            }
+        }
+        if let Ok(home) = std::env::var("HOME") {
+            if !home.trim().is_empty() {
+                let mut dir = PathBuf::from(home);
+                dir.push(".config");
+                return Some(dir);
+            }
+        }
+        None
+    }
+
+    #[cfg(not(any(
+        target_os = "windows",
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd"
+    )))]
+    {
+        std::env::current_dir().ok()
+    }
 }
 
 #[cfg(test)]
