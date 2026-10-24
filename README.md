@@ -52,6 +52,8 @@ No runtime, no installer, no Node.js required.
   with a 5 second cache and pushed straight into the interface.
 * **Goal progress** – set a follower goal and a subscriber goal and watch the
   bars fill; the dashboard shows the percentage, the OBS widgets show the bar.
+  Large goals stay readable (`1,500` shows as `1.5k`), and a completed bar
+  shimmers with a slow sweep of light.
 * **OBS widgets** – copy the widget URL from the right rail, paste it into an OBS
   *Browser* source, done. The widgets are compiled into the binary, so they work
   from any folder and any machine.

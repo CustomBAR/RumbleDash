@@ -114,22 +114,62 @@ pub fn stat_tile(ui: &mut Ui, tile: StatTile<'_>) {
 }
 
 /// A thin rounded progress bar.
+///
+/// Reaching the goal is celebrated with one pass of light along the fill and a
+/// short flash. The animation is driven by `animate_bool_with_time`, which only
+/// asks for repaints while it runs – a settled bar costs nothing.
 pub fn progress_bar(ui: &mut Ui, fraction: f32, color: Color32, height: f32) {
-    let (rect, _) = ui.allocate_exact_size(Vec2::new(ui.available_width(), height), Sense::hover());
+    let (rect, response) =
+        ui.allocate_exact_size(Vec2::new(ui.available_width(), height), Sense::hover());
+
+    let fraction = fraction.clamp(0.0, 1.0);
+    let arrived = ui
+        .ctx()
+        .animate_bool_with_time(response.id.with("filled"), fraction >= 1.0, 0.6);
+
     if !ui.is_rect_visible(rect) {
         return;
     }
 
     let painter = ui.painter();
-    painter.rect_filled(rect, pill(rect.height()), theme::SURFACE_RAISED);
+    let radius = pill(rect.height());
+    painter.rect_filled(rect, radius, theme::SURFACE_RAISED);
 
-    let fraction = fraction.clamp(0.0, 1.0);
     if fraction <= 0.0 {
         return;
     }
 
     let fill = Rect::from_min_size(rect.min, Vec2::new(rect.width() * fraction, rect.height()));
-    painter.rect_filled(fill, pill(rect.height()), color);
+    painter.rect_filled(fill, radius, color);
+
+    if fraction < 1.0 || arrived >= 1.0 {
+        return;
+    }
+
+    // The flash peaks halfway through the arrival and has faded by the end, so
+    // it reads as a single pop rather than a permanent glow.
+    let flash = (std::f32::consts::PI * arrived).sin();
+    if flash > 0.0 {
+        painter.rect_filled(
+            fill,
+            radius,
+            Color32::from_white_alpha((flash * 90.0) as u8),
+        );
+    }
+
+    // A band of light travels from the left edge to the right edge.
+    let band = (fill.width() * 0.35).max(24.0);
+    let left = fill.left() + (fill.width() + band) * arrived - band;
+    let sweep = Rect::from_min_max(
+        egui::pos2(left, fill.top()),
+        egui::pos2(left + band, fill.bottom()),
+    )
+    .intersect(fill);
+
+    if sweep.is_positive() {
+        let alpha = ((1.0 - arrived) * 130.0) as u8;
+        painter.rect_filled(sweep, radius, Color32::from_white_alpha(alpha));
+    }
 }
 
 /// A small pill used for statuses and metadata.

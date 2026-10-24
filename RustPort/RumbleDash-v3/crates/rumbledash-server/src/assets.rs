@@ -15,6 +15,8 @@ pub const SUBSCRIBERS_CSS: &str = include_str!("../assets/styles/subscribers.css
 /// Stylesheet for the browser status page.
 pub const DASHBOARD_CSS: &str = include_str!("../assets/styles/dashboard.css");
 
+/// Shared number formatting, used by the overlays and the status page.
+pub const NUMBERS_JS: &str = include_str!("../assets/scripts/numbers.js");
 /// Shared widget script.
 pub const WIDGET_JS: &str = include_str!("../assets/scripts/widget.js");
 /// Status page script.
@@ -38,6 +40,7 @@ pub fn stylesheet(name: &str) -> Option<&'static str> {
 /// Looks up a script by name (without the `.js` suffix).
 pub fn script(name: &str) -> Option<&'static str> {
     match name {
+        "numbers" => Some(NUMBERS_JS),
         "widget" => Some(WIDGET_JS),
         "status" => Some(STATUS_JS),
         _ => None,

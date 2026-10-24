@@ -2610,7 +2610,7 @@ dependencies = [
 
 [[package]]
 name = "rumbledash-app"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "eframe",
  "egui",
@@ -2627,7 +2627,7 @@ dependencies = [
 
 [[package]]
 name = "rumbledash-core"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "reqwest",
  "serde",
@@ -2639,7 +2639,7 @@ dependencies = [
 
 [[package]]
 name = "rumbledash-server"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "axum",
  "rumbledash-core",

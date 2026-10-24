@@ -3,6 +3,7 @@
 use egui::Ui;
 
 use crate::app::{ratio, RumbleDashApp};
+use crate::format;
 use crate::theme;
 use crate::widgets;
 
@@ -46,15 +47,15 @@ fn overview(app: &mut RumbleDashApp, ui: &mut Ui) {
         let tiles = [
             widgets::StatTile {
                 label: "Followers",
-                value: format_number(followers),
-                caption: format!("Goal {}", format_number(followers_goal)),
+                value: format::number(followers),
+                caption: format!("Goal {}", format::compact(followers_goal)),
                 accent: theme::EMBER,
                 progress: Some(ratio(followers, followers_goal)),
             },
             widgets::StatTile {
                 label: "Subscribers",
-                value: format_number(subscribers),
-                caption: format!("Goal {}", format_number(subscribers_goal)),
+                value: format::number(subscribers),
+                caption: format!("Goal {}", format::compact(subscribers_goal)),
                 accent: theme::EMBER_LIGHT,
                 progress: Some(ratio(subscribers, subscribers_goal)),
             },
@@ -95,6 +96,7 @@ fn goals(app: &mut RumbleDashApp, ui: &mut Ui) {
                 &mut app.draft.followers_goal,
                 "5000",
             );
+            goal_preview(&mut left[0], app.draft.followers_goal);
 
             right[0].add_space(theme::SPACE_XS);
             widgets::number_field(
@@ -103,6 +105,7 @@ fn goals(app: &mut RumbleDashApp, ui: &mut Ui) {
                 &mut app.draft.subscribers_goal,
                 "20",
             );
+            goal_preview(&mut right[0], app.draft.subscribers_goal);
         });
     });
 }
@@ -160,18 +163,13 @@ fn connection(app: &mut RumbleDashApp, ui: &mut Ui) {
     });
 }
 
-/// Formats a number with thin spaces as the thousands separator.
-fn format_number(value: u64) -> String {
-    let digits = value.to_string();
-    let mut out = String::with_capacity(digits.len() + digits.len() / 3);
-
-    let bytes = digits.as_bytes();
-    for (index, byte) in bytes.iter().enumerate() {
-        if index > 0 && (bytes.len() - index) % 3 == 0 {
-            out.push(',');
-        }
-        out.push(*byte as char);
+/// Shows the compact form a goal will have on the overlay, when it differs.
+fn goal_preview(ui: &mut Ui, goal: u64) {
+    let compact = format::compact(goal);
+    if compact == format::number(goal) {
+        return;
     }
 
-    out
+    ui.add_space(theme::SPACE_XS);
+    ui.label(theme::caption(format!("The overlay shows {compact}")));
 }

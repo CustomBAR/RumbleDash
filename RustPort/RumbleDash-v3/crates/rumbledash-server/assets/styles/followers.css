@@ -51,9 +51,87 @@ body {
 }
 
 .progress {
+    position: relative;
+    overflow: hidden;
     height: var(--progress-height);
     background: var(--progress-fill-gradient);
     transition: width 0.5s ease;
+}
+
+/*
+ * Goal reached: a band of light keeps sweeping across the fill while the bar
+ * glows from the inside. The sheen lives on the fill itself, so it follows the
+ * accent gradient instead of sitting on top of it as a separate layer.
+ */
+.progress.is-full::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.08) 36%,
+        rgba(255, 255, 255, 0.55) 50%,
+        rgba(255, 255, 255, 0.08) 64%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-100%);
+    animation: rd-sheen 2.6s ease-in-out infinite;
+}
+
+.progress.is-full {
+    animation: rd-glow 2.6s ease-in-out infinite;
+}
+
+/* The one-shot flash that plays when the bar arrives at its goal. */
+.progress.is-full.just-filled {
+    animation:
+        rd-glow 2.6s ease-in-out infinite,
+        rd-flash 0.9s ease-out;
+}
+
+@keyframes rd-sheen {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    55%,
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes rd-glow {
+    0%,
+    100% {
+        box-shadow: inset 0 0 4px rgba(255, 255, 255, 0);
+    }
+
+    50% {
+        box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35);
+    }
+}
+
+@keyframes rd-flash {
+    0% {
+        filter: brightness(1.9) saturate(1.25);
+    }
+
+    100% {
+        filter: brightness(1) saturate(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .progress.is-full,
+    .progress.is-full.just-filled,
+    .progress.is-full::after {
+        animation: none;
+    }
+
+    .progress.is-full::after {
+        display: none;
+    }
 }
 
 .counter,

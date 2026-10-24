@@ -7,6 +7,7 @@
 
 mod app;
 mod assets;
+mod format;
 mod pages;
 mod sys;
 mod theme;

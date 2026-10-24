@@ -16,6 +16,14 @@ pub struct Entry {
 /// The changelog, newest first.
 pub const ENTRIES: &[Entry] = &[
     Entry {
+        title: "RumbleDash v3.1.0 - The Polish Update",
+        points: &[
+            "Goal labels shorten themselves once they get big: 1,000 reads 1k, 1,500 reads 1.5k, and the same carries through millions and billions.",
+            "Completed progress bars now animate - a sweep of light crosses the fill and the bar flashes once when the goal is reached.",
+            "The desktop dashboard previews how each goal will read on the overlay and celebrates a full bar too.",
+        ],
+    },
+    Entry {
         title: "RumbleDash v3.0.0 - The Rust Port",
         points: &[
             "Complete rewrite in Rust with a native egui desktop dashboard.",
