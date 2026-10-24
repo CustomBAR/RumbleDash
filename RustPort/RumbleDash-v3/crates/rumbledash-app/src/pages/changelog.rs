@@ -16,6 +16,13 @@ pub struct Entry {
 /// The changelog, newest first.
 pub const ENTRIES: &[Entry] = &[
     Entry {
+        title: "RumbleDash v3.1.1 - AppImage & Config Fix",
+        points: &[
+            "Settings now save correctly in read-only AppImages (falls back to your user config directory and writes atomically).",
+            "The app searches for config.json next to the executable first, so portable installs keep working as expected.",
+        ],
+    },
+    Entry {
         title: "RumbleDash v3.1.0 - The Polish Update",
         points: &[
             "Goal labels shorten themselves once they get big: 1,000 reads 1k, 1,500 reads 1.5k, and the same carries through millions and billions.",
